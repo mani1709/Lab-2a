@@ -1,0 +1,4 @@
+public class Ray {
+	Vec3 eye = new Vec3(0, 0, 0);
+	Vec3 direction = new Vec3(1, 0, 0);
+}

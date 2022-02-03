@@ -1,0 +1,91 @@
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import javax.imageio.ImageIO;
+
+public class Main {
+	
+	public static void main(String[] args) throws IOException {
+		//TODO PARSER
+		Path path = Paths.get(args[0]);
+		List<String> read = Files.readAllLines(path);
+		
+		//Camera
+		Vec3 position = new Vec3(0, 0, 1);
+		Vec3 lookAt = new Vec3(0, 0, -2.5);
+		Vec3 up = new Vec3(0, 1, 0);
+		
+		int width = 512;
+	    int height = 512; 
+	    
+	    int max_bounces = 0;
+		
+	    double fovx = Math.toRadians(45);
+	    double fovy = height/width*fovx;
+	    
+	    //Lights
+	    
+	    //Surfaces
+	    List<Obj> Objects = new ArrayList<Obj>();
+		
+	    Objects.add(new Sphere(1.0, new Vec3(0, 0, -3)));
+		
+	    //creation of image
+		BufferedImage canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		Camera camera = new Camera(position, up, lookAt, width, height, fovx);
+		
+		double differenceWidth = camera.getRight() - camera.getLeft();
+		double differenceHeight = camera.getBottom() - camera.getTop();
+		
+        for(int i = 0; i < width; i++) {
+        	for(int j = 0; j < height; j++) {
+        		//u and v are the values of the plane from -width/2 to width/2 changing by 1 per value for u and the same as height for v
+        		double u = camera.getLeft() + (differenceWidth) * (i + 0.5)/width; //((2*i - width) / width) * Math.tan(fovx); //camera.getLeft() + (differenceWidth) * (i + 0.5)/width;
+        		double v = camera.getTop() + (differenceHeight) * (j + 0.5)/height; //((2*j - height) / height) * Math.tan(fovy); //camera.getTop() + (differenceHeight) * (j + 0.5)/height;
+        		
+        		
+        		Vec3 uScaled = Utils.multScalar(camera.getU(), u);
+        		Vec3 vScaled = Utils.multScalar(camera.getV(), v);
+        		Vec3 vectorToPlane = Utils.add(Utils.add(uScaled, vScaled), camera.getW_distance_negated());
+        		Vec3 direction = Utils.normalize(vectorToPlane);
+        		
+        		Obj intersect = null;
+        		double tNearestObject = Double.MAX_VALUE;
+
+        		for(int k = 0; k < Objects.size(); k++) {
+        			double tCuttingObject = Objects.get(k).intersect(position, direction);
+        			if(tCuttingObject > 0 && tCuttingObject < tNearestObject) {
+        				intersect = Objects.get(k);
+        				tNearestObject = tCuttingObject;
+        			}
+        		}
+        		
+        		if(intersect == null) {
+        			int r = (int) ((direction.x + 1)/2 * 256);
+            		int g = (int) ((direction.y + 1)/2 * 256);
+            		int b = (int) ((direction.z + 1)/2 * 256);
+            		Color color = new Color(r, g, 0);
+            		canvas.setRGB(i, j, color.getRGB());
+        		} else {
+        			Color color = new Color(255, 255, 255);
+            		canvas.setRGB(i, j, color.getRGB());
+        		}
+        		
+        		
+        		
+        		
+        		
+        	}
+        }
+ 
+        //write array to image
+        File file = new File("output.png");
+        ImageIO.write(canvas, "png", file);
+	}
+}

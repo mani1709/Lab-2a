@@ -1,0 +1,4 @@
+
+public class Camera {
+	static vec3 up = new vec3(0, 1, 0);
+}

@@ -1,0 +1,10 @@
+import org.w3c.dom.Document;
+
+public class XMLParsing {
+	Document document;
+
+	public XMLParsing(Document document) {
+		this.document = document;
+	}
+
+}

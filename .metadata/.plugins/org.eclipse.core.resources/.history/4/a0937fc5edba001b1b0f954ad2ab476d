@@ -1,0 +1,10 @@
+
+public class ParallelLight implements Light {
+	Vec3 color;
+	Vec3 position;
+	
+	AmbientLight(Vec3 color, Vec3 position) {
+		this.color = color;
+		this.position = position;
+	}
+}

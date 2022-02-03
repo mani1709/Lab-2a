@@ -1,0 +1,32 @@
+public class Camera {
+	Vec3 eye;
+	Vec3 up;
+	Vec3 at;
+	
+	Vec3 w;
+	Vec3 u;
+	Vec3 v;
+	
+	double fov = Math.PI/4;
+	
+	int left = -Main.width/2;
+	int right = Main.width/2;
+	int bottom = -Main.height/2;
+	int top = Main.height/2;
+	int far;
+	int near;
+	
+	double distance = top/Math.tan(fov)/2;
+	
+	public Camera(Vec3 eye, Vec3 up, Vec3 at) {
+		this.eye = eye;
+		this.up = up;
+		this.at = at;
+	
+		w = Utils.normalize(Utils.subtract(at, eye));
+		u = Utils.normalize(Utils.crossProduct(w, up));
+		v = Utils.normalize(Utils.crossProduct(w, u));
+		
+		System.out.print(v);
+	}
+}

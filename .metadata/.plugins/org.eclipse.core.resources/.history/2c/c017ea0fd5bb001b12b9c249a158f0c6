@@ -1,0 +1,143 @@
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class XMLParsing {
+	private Document document;
+
+	public XMLParsing(Document document) {
+		this.document = document;
+	}
+
+	public String parseOutputFile() {
+		NodeList sceneList = document.getElementsByTagName("scene");
+		return ((Element) sceneList.item(0)).getAttribute("output_file");
+	}
+
+	public Vec3 parseBackgroundColor() {
+		NodeList bgList = document.getElementsByTagName("background_color");
+		Element bg = (Element) bgList.item(0);
+		return new Vec3(Double.parseDouble(bg.getAttribute("r")), Double.parseDouble(bg.getAttribute("g")), Double.parseDouble(bg.getAttribute("b")));
+	}
+
+	public Vec3 parsePositionCamera() {
+		Node cameras = document.getElementsByTagName("camera").item(0);
+		Element camera = (Element) cameras;
+		NodeList cameraStats = camera.getChildNodes();
+		for(int i = 0; i < cameraStats.getLength(); i++) {
+			Node n = cameraStats.item(i);
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				Element stat = (Element) n;
+				switch(stat.getTagName()) {
+					case "position":
+						return new Vec3(Double.parseDouble(stat.getAttribute("x")), Double.parseDouble(stat.getAttribute("y")), Double.parseDouble(stat.getAttribute("z")));
+				}
+			}
+		}
+		return null;
+	}
+
+	public Vec3 parseLookAt() {
+		Node cameras = document.getElementsByTagName("camera").item(0);
+		Element camera = (Element) cameras;
+		NodeList cameraStats = camera.getChildNodes();
+		for(int i = 0; i < cameraStats.getLength(); i++) {
+			Node n = cameraStats.item(i);
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				Element stat = (Element) n;
+				switch(stat.getTagName()) {
+				case "lookat":
+					return new Vec3(Double.parseDouble(stat.getAttribute("x")), Double.parseDouble(stat.getAttribute("y")), Double.parseDouble(stat.getAttribute("z")));
+				}
+			}
+		}
+		return null;
+	}
+
+	public Vec3 parseUp() {
+		Node cameras = document.getElementsByTagName("camera").item(0);
+		Element camera = (Element) cameras;
+		NodeList cameraStats = camera.getChildNodes();
+		for(int i = 0; i < cameraStats.getLength(); i++) {
+			Node n = cameraStats.item(i);
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				Element stat = (Element) n;
+				switch(stat.getTagName()) {
+				case "up":
+					return new Vec3(Double.parseDouble(stat.getAttribute("x")), Double.parseDouble(stat.getAttribute("y")), Double.parseDouble(stat.getAttribute("z")));
+				}
+			}
+		}
+		return null;
+	}
+
+	public double parseHorizontalFov() {
+		Node cameras = document.getElementsByTagName("camera").item(0);
+		Element camera = (Element) cameras;
+		NodeList cameraStats = camera.getChildNodes();
+		for(int i = 0; i < cameraStats.getLength(); i++) {
+			Node n = cameraStats.item(i);
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				Element stat = (Element) n;
+				switch(stat.getTagName()) {
+				case "horizontal_fov":
+					return Math.toRadians(Double.parseDouble(stat.getAttribute("angle")));
+				}
+			}
+		}
+		return 0;
+	}
+
+	public int parseWidth() {
+		Node cameras = document.getElementsByTagName("camera").item(0);
+		Element camera = (Element) cameras;
+		NodeList cameraStats = camera.getChildNodes();
+		for(int i = 0; i < cameraStats.getLength(); i++) {
+			Node n = cameraStats.item(i);
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				Element stat = (Element) n;
+				switch(stat.getTagName()) {
+				case "resolution":
+					return Integer.parseInt(stat.getAttribute("horizontal"));
+				}
+			}
+		}
+		return 0;
+	}
+
+	public int parseHeight() {
+		Node cameras = document.getElementsByTagName("camera").item(0);
+		Element camera = (Element) cameras;
+		NodeList cameraStats = camera.getChildNodes();
+		for(int i = 0; i < cameraStats.getLength(); i++) {
+			Node n = cameraStats.item(i);
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				Element stat = (Element) n;
+				switch(stat.getTagName()) {
+				case "resolution":
+					return Integer.parseInt(stat.getAttribute("vertical"));
+				}
+			}
+		}
+		return 0;
+	}
+
+	public int parseMaxBounces() {
+		Node cameras = document.getElementsByTagName("camera").item(0);
+		Element camera = (Element) cameras;
+		NodeList cameraStats = camera.getChildNodes();
+		for(int i = 0; i < cameraStats.getLength(); i++) {
+			Node n = cameraStats.item(i);
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				Element stat = (Element) n;
+				switch(stat.getTagName()) {
+				case "max_bounces":
+					return Integer.parseInt(stat.getAttribute("vertical"));
+				}
+			}
+		}
+		return 0;
+	}
+
+}

@@ -1,0 +1,9 @@
+public interface Obj {
+	public Vec3 getColor();
+
+	public Material getMaterial();
+
+	public double intersect(Ray ray);
+
+	public Vec3 getNormal(Ray ray);
+}

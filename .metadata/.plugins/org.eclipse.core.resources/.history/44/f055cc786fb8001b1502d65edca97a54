@@ -1,0 +1,14 @@
+
+public class vec3 {
+	double x;
+	double y;
+	double z;
+	
+	public vec3(double x, double y, double z) {
+
+	}
+	
+	public vec3(double x, double y, double z) {
+		
+	}
+}

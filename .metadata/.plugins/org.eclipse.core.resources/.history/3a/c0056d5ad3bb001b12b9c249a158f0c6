@@ -1,0 +1,17 @@
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+public class XMLParsing {
+	Document document;
+
+	public XMLParsing(Document document) {
+		this.document = document;
+	}
+
+	public String parseOutputFile() {
+		NodeList sceneList = document.getElementsByTagName("scene");
+		return ((Element) sceneList.item(0)).getAttribute("output_file");
+	}
+
+}

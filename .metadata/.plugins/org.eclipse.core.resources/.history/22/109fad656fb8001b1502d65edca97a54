@@ -1,0 +1,6 @@
+
+public class vec3 {
+	Double x;
+	Double y;
+	Double z;
+}

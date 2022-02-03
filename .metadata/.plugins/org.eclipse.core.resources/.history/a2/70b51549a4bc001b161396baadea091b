@@ -1,0 +1,16 @@
+public interface Obj {
+
+	public Material getMaterial();
+
+	public double intersect(Ray ray);
+
+	public Vec3 getColor();
+
+	public Vec3 getCenter();
+
+	public Vec3 getDiffuseColor(Vec3 normal);
+
+	public Vec3 getSpecularColor(Vec3 normal);
+
+	public Vec3 calculateAmbient();
+}

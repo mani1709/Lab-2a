@@ -1,0 +1,4 @@
+
+public class ambientLight implements Light{
+	Vec3 Color;
+}

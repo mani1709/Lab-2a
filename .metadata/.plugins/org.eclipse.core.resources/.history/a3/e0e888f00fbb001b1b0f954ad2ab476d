@@ -1,0 +1,42 @@
+import java.awt.Color;
+
+public class Sphere implements Obj {
+	double radius;
+	Vec3 center;
+	Material material;
+	
+	public Sphere(double radius, Vec3 center, Material material) {
+		this.radius = radius;
+		this.center = center;
+		this.material = material;
+	}
+	
+	@Override
+	public double intersect(Vec3 position, Vec3 direction) {
+		double a = Utils.dotProduct(direction, direction);
+		Vec3 pc = Utils.subtract(center, position);
+		double b = 2 * Utils.dotProduct(pc, direction);
+		double c = Utils.dotProduct(pc, pc) - radius * radius;
+		
+		double discriminant = (b * b) - (4 * a * c);
+
+		if(discriminant < 0 || a == 0) {
+			return Double.MAX_VALUE;
+		} else if (discriminant == 0) {
+			return -b/2*a;
+		} else {
+			return Math.min((-b+Math.sqrt(discriminant)) / (2*a), (-b-Math.sqrt(discriminant)) / (2*a));
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Sphere [radius=" + radius + ", center=" + center + ", color=" + color + "]";
+	}
+
+	@Override
+	public int getColor() {
+		return material.getColor().getRGB();
+	}
+
+}

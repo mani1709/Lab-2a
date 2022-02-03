@@ -1,0 +1,74 @@
+public class Camera {
+	private Vec3 position;
+	private Vec3 up;
+	private Vec3 lookAt;
+	
+	private Vec3 w;
+	private Vec3 u;
+	private Vec3 v;
+	
+	private int width;
+	private int height;
+	
+	private int left = -width/2;
+	private int right = width/2;
+	private int bottom = -height/2;
+	private int top = height/2;
+	private int far;
+	private int near;
+	
+	private double distance = top/Math.tan(fov)/2;
+	private Vec3 w_distance_negated;
+	
+	public Camera(Vec3 eye, Vec3 up, Vec3 at, int width, int height) {
+		this.eye = eye;
+		this.up = up;
+		this.at = at;
+		
+		this.width = width;
+		this.height = height;
+		
+		left = -width/2;
+		right = width/2;
+		bottom = -height/2;
+		top = height/2;
+	
+		w = Utils.normalize(Utils.subtract(at, eye));
+		u = Utils.normalize(Utils.crossProduct(w, up));
+		v = Utils.normalize(Utils.crossProduct(w, u));
+		
+		w_distance_negated = Utils.multScalar(w, distance*-1);
+	}
+	
+	public int getLeft() {
+		return left;
+	}
+
+	public void setLeft(int left) {
+		this.left = left;
+	}
+
+	public int getRight() {
+		return right;
+	}
+
+	public void setRight(int right) {
+		this.right = right;
+	}
+
+	public int getBottom() {
+		return bottom;
+	}
+
+	public void setBottom(int bottom) {
+		this.bottom = bottom;
+	}
+
+	public int getTop() {
+		return top;
+	}
+
+	public void setTop(int top) {
+		this.top = top;
+	}
+}

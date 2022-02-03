@@ -1,0 +1,9 @@
+public class Ray {
+	Vec3 eye;
+	Vec3 direction;
+	
+	public Ray (Vec3 eye, Vec3 direction) {
+		this.eye = eye;
+		this.direction = direction;
+	}
+}

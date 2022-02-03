@@ -1,0 +1,27 @@
+public class Utils {
+	//if we dont want the vectors to change, we can use this class to create a new vector from the return
+	//also used for dot and cross product
+	
+	public Vec3 add(Vec3 a, Vec3 b) {
+		double x = a.x + b.x;
+		double y = a.y + b.y;
+		double z = a.z + b.z;
+		return new Vec3(x, y, z);
+	}
+	
+	public double dotProduct(Vec3 a, Vec3 b) {
+		return a.x * b.x + a.y * b.y + a.z * b.z;
+	}
+	
+	public Vec3 crossProduct (Vec3 a, Vec3 b) {
+		double x = a.y*b.z - a.z*b.y;
+		double y = a.z*b.x - a.x*b.z;
+		double z = a.x*b.y - a.y*b.x;
+		return new Vec3(x, y, z);
+	}
+	
+	public Vec3 normalize(Vec3 a) {
+		double length = a.length();
+		return new Vec3(a.x/length, a.y/length, a.z/length);
+	}
+}

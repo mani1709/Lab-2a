@@ -1,0 +1,6 @@
+
+public class Camera {
+	private vec3 up = new vec3(0, 1, 0);
+	private vec3 eye = new vec3(0, 0, 10);
+	private vec3 Z = new vec3(0, 0, 0);
+}

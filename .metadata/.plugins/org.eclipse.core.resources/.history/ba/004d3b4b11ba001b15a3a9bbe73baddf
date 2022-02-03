@@ -1,0 +1,22 @@
+public class Ray {
+	Vec3 eye;
+	Vec3 direction;
+	
+	public Ray(Vec3 eye, Vec3 direction) {
+		this.eye = eye;
+		this.direction = direction;
+	}
+	
+	public Vec3 getEye() {
+		return this.eye;
+	}
+	
+	public Vec3 getDirection() {
+		return this.direction;
+	}
+	
+	public Vec3 positionAt(double t) 6{
+		//ray is startpoint + t * direction
+		return eye + t * direction;
+	}
+}

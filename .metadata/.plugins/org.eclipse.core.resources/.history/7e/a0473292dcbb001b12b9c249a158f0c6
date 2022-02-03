@@ -1,0 +1,134 @@
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.imageio.ImageIO;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+public class Main {
+	
+	public static void main(String[] args) throws IOException {
+		String outputFile = "";
+		Vec3 backgroundColor = new Vec3(0, 0, 0);
+		
+		Vec3 position = new Vec3(0, 0, 0);
+		Vec3 lookAt = new Vec3(0, 0, 0);
+		Vec3 up = new Vec3(0, 0, 0);
+		
+		double fovx = 0;
+		double fovy = 0;
+		
+		int width = 0;
+	    int height = 0;
+	    
+	    int maxBounces = 0;
+	    
+	    List<Light> lights = new ArrayList<Light>();
+	    
+	    List<Obj> objects = new ArrayList<Obj>();
+	    
+	    //parsing xml document
+	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(args[0]);
+	    
+			XMLParsing x = new XMLParsing(document);
+	    
+			outputFile = x.parseOutputFile();
+			backgroundColor = x.parseBackgroundColor();
+			position = x.parsePositionCamera();
+			lookAt = x.parseLookAt();
+			up = x.parseUp();
+			fovy = x.parseHorizontalFov();
+			width = x.parseWidth();
+			height = x.parseHeight();
+			fovx = height/width*fovy;
+			maxBounces = x.parseMaxBounces();
+			lights = x.parseLights();
+			objects = x.parseSurfaces();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
+		
+	    //creation of image
+		BufferedImage canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		Camera camera = new Camera(position, up, lookAt, width, height, fovx);
+		
+		double differenceWidth = camera.getRight() - camera.getLeft();
+		double differenceHeight = camera.getBottom() - camera.getTop();
+		
+        for(int i = 0; i < width; i++) {
+        	for(int j = 0; j < height; j++) {
+        		//u and v are the values of the plane from -width/2 to width/2 changing by 1 per value for u and the same as height for v
+        		double u = camera.getLeft() + (differenceWidth) * (i + 0.5)/width; //((2*i - width) / width) * Math.tan(fovx); //camera.getLeft() + (differenceWidth) * (i + 0.5)/width;
+        		double v = camera.getTop() + (differenceHeight) * (j + 0.5)/height; //((2*j - height) / height) * Math.tan(fovy); //camera.getTop() + (differenceHeight) * (j + 0.5)/height;
+        		
+        		
+        		Vec3 uScaled = Utils.multScalar(camera.getU(), u);
+        		Vec3 vScaled = Utils.multScalar(camera.getV(), v);
+        		Vec3 vectorToPlane = Utils.add(Utils.add(uScaled, vScaled), camera.getW_distance_negated());
+        		Vec3 direction = Utils.normalize(vectorToPlane);
+        		
+        		Ray ray = new Ray(position, direction);
+        		
+        		Obj intersect = null;
+        		double tNearestObject = Double.MAX_VALUE;
+
+        		for(int k = 0; k < objects.size(); k++) {
+        			double tCuttingObject = objects.get(k).intersect(ray);
+        			if(tCuttingObject > 0 && tCuttingObject < tNearestObject) {
+        				intersect = objects.get(k);
+        				tNearestObject = tCuttingObject;
+        			}
+        		}
+        		if(tNearestObject != Double.MAX_VALUE) {
+        			Ray normal = new Ray(intersect.getCenter(), ray.positionAt(tNearestObject))
+        			System.out.println(normal);
+        		}
+        		
+        		if(intersect == null) {
+        			int r = (int) (backgroundColor.getX() * 256);
+            		int g = (int) (backgroundColor.getY() * 256);
+            		int b = (int) (backgroundColor.getZ() * 256);
+            		Color color = new Color(r, g, b);
+            		canvas.setRGB(i, j, color.getRGB());
+        		} else {
+        			Vec3 normal = intersect.getNormal(ray);
+        			Vec3 c = intersect.getColor();
+        			int r = (int) (c.getX() * lights.get(0).getColor().getX() * intersect.getMaterial().getColor().getX() * 256);
+        			int g = (int) (c.getY() * lights.get(0).getColor().getY() * intersect.getMaterial().getColor().getY() * 256);
+        			int b = (int) (c.getZ() * lights.get(0).getColor().getZ() * intersect.getMaterial().getColor().getZ() * 256);
+        			Color color = new Color(r, g, b);
+        			
+        			
+        			
+            		canvas.setRGB(i, j, color.getRGB());
+        		}
+        	}
+        }
+        
+        BufferedImage canvas2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for(int i = 0; i < width; i++) {
+        	for(int j = 0; j < height; j++) {
+        		canvas2.setRGB(i, j, canvas.getRGB(width - i - 1, j));
+        	}
+        }
+        
+        //write array to image
+        File file = new File(outputFile);
+        ImageIO.write(canvas2, "png", file);
+	}
+}

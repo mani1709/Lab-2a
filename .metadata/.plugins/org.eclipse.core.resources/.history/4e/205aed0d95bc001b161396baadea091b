@@ -1,0 +1,7 @@
+package light;
+
+public interface Light {
+
+	Vec3 getColor();
+	
+}

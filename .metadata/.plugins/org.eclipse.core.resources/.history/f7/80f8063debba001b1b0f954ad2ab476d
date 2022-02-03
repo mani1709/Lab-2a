@@ -1,0 +1,8 @@
+
+public class ambientLight implements Light{
+	Vec3 color;
+	
+	ambientLight(Vec3 color) {
+		this.color = color;
+	}
+}

@@ -1,0 +1,9 @@
+
+public class Obj {
+
+	public double intersect(Vec3 position, Vec3 direction) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

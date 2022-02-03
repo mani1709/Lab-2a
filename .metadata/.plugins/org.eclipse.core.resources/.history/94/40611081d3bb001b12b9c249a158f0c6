@@ -1,0 +1,23 @@
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+public class XMLParsing {
+	Document document;
+
+	public XMLParsing(Document document) {
+		this.document = document;
+	}
+
+	public String parseOutputFile() {
+		NodeList sceneList = document.getElementsByTagName("scene");
+		return ((Element) sceneList.item(0)).getAttribute("output_file");
+	}
+
+	public Vec3 parseBackgroundColor() {
+		NodeList bgList = document.getElementsByTagName("background_color");
+		Element bg = (Element) bgList.item(0);
+		return new Vec3(Double.parseDouble(bg.getAttribute("r")), Double.parseDouble(bg.getAttribute("g")), Double.parseDouble(bg.getAttribute("b")));
+	}
+
+}

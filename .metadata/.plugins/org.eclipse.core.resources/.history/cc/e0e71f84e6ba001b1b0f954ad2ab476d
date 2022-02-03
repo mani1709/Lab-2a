@@ -1,0 +1,7 @@
+public class Light {
+	Vec3 color;
+	
+	public Light(int type, Vec3 color) {
+		this.color = color;
+	}
+}

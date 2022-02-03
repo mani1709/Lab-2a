@@ -1,0 +1,21 @@
+CLAIM:
+
+	I implemented T1, T2, T3, T4, T5
+	
+	Additional Remarks: 
+	Image is flipped, but by using a second picture which inverts it(i got the weirdest bug where the green sphere disappeared when i flip in the first loop)
+	Hacky solution for when colors are over 255
+
+TESTED ENVIRONMENTS:
+
+	Dev-Computer Windows 10 x64 Eclipse Version: 2020-12 (4.18.0)
+	
+	Test-Computer Windows 10 x64 Eclipse Version: 2020-12 (4.18.0)
+
+ADDITIONAL AND GENERAL REMARKS:
+
+	To learn about xml parsing i used the youtube video https://www.youtube.com/watch?v=HfGWVy-eMRc
+	For raytracing i used the information on:
+	https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tracing
+	https://www.youtube.com/watch?v=qpb19vrBpJ4
+	https://youtu.be/lKIytgt3KXM (+ the repository)

@@ -1,0 +1,16 @@
+CLAIM:
+
+	I implemented T1, T2, T3
+	
+	Additional Remarks: Not implemented yet T4, T5 
+	Image is flipped, but by using a second picture which inverts it(i got the weirdest bug where the green sphere disappeared when i flip in the first loop)
+
+TESTED ENVIRONMENTS:
+
+	Dev-Computer Windows 10 x64 Eclipse Version: 2020-12 (4.18.0)
+	
+	Test-Computer Windows 10 x64 Eclipse Version: 2020-12 (4.18.0)
+
+ADDITIONAL AND GENERAL REMARKS:
+
+	To learn about xml parsing i used the youtube video https://www.youtube.com/watch?v=HfGWVy-eMRc

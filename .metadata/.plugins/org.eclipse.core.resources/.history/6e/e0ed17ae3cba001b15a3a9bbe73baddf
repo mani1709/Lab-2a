@@ -1,0 +1,102 @@
+public class Camera {
+	private Vec3 eye;
+	private Vec3 up;
+	private Vec3 at;
+	
+	private Vec3 w;
+	private Vec3 u;
+	private Vec3 v;
+	
+	private int width;
+	private int height;
+	
+	private double fov;
+	
+	private int left = -width/2;
+	private int right = width/2;
+	private int bottom = -height/2;
+	private int top = height/2;
+	private int far;
+	private int near;
+	
+	private double distance = top/Math.tan(fov)/2;
+	private Vec3 w_distance_negated;
+
+	public Camera(Vec3 eye, Vec3 up, Vec3 at, int width, int height, double fovx) {
+		this.eye = eye;
+		this.up = up;
+		this.at = at;
+		
+		this.width = width;
+		this.height = height;
+		
+		this.fov = fovx;
+		
+		left = -width/2;
+		right = width/2;
+		bottom = -height/2;
+		top = height/2;
+	
+		w = Utils.normalize(Utils.subtract(at, eye));
+		u = Utils.normalize(Utils.crossProduct(w, up));
+		v = Utils.normalize(Utils.crossProduct(w, u));
+		
+		w_distance_negated = Utils.multScalar(w, distance*-1);
+	}
+	
+	public int getLeft() {
+		return left;
+	}
+
+	public void setLeft(int left) {
+		this.left = left;
+	}
+
+	public int getRight() {
+		return right;
+	}
+
+	public void setRight(int right) {
+		this.right = right;
+	}
+
+	public int getBottom() {
+		return bottom;
+	}
+
+	public void setBottom(int bottom) {
+		this.bottom = bottom;
+	}
+
+	public int getTop() {
+		return top;
+	}
+
+	public void setTop(int top) {
+		this.top = top;
+	}
+	
+	public Vec3 getU() {
+		return u;
+	}
+
+	public void setU(Vec3 u) {
+		this.u = u;
+	}
+
+	public Vec3 getV() {
+		return v;
+	}
+
+	public void setV(Vec3 v) {
+		this.v = v;
+	}
+
+	public Vec3 getW_distance_negated() {
+		return w_distance_negated;
+	}
+
+	public void setW_distance_negated(Vec3 w_distance_negated) {
+		this.w_distance_negated = w_distance_negated;
+	}
+}

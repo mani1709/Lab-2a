@@ -1,0 +1,4 @@
+public class Utils {
+
+	//since we do not want to alter the vectors when calculating the dotproduct or the cross product, we calculate it outside
+}

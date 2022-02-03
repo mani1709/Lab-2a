@@ -1,0 +1,5 @@
+public interface Obj {
+	public double intersect(Vec3 position, Vec3 direction);
+	
+	public int getColor();
+}

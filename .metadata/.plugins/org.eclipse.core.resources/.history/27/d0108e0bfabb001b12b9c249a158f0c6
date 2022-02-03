@@ -1,0 +1,7 @@
+public interface Material {
+
+	Vec3 getColor();
+	
+	double getKa();
+
+}

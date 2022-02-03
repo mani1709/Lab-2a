@@ -1,0 +1,27 @@
+public class Vec3 {
+	double x;
+	double y;
+	double z;
+	
+	public Vec3(double x, double y, double z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
+	public void add(Vec3 toAdd) {
+		this.x += toAdd.x;
+		this.y += toAdd.y;
+		this.z += toAdd.z;
+	}
+	
+	public void multScalar(double s) {
+		this.x *= s;
+		this.y *= s;
+		this.z *= s;
+	}
+	
+	public double length() {
+		return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+	}
+}
